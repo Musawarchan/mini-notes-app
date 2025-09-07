@@ -123,17 +123,4 @@ flutter build ios  # iOS
 flutter build web  # Web
 ```
 
-## Screenshots
 
-The app includes:
-- Light and dark theme variants
-- 4 different seed color options
-- Responsive design for different screen sizes
-- Accessible UI components
-
-## Evaluation Criteria Coverage
-
-- **Architecture (30%)**: ✅ MVVM with clear separation of concerns
-- **State & Data Flow (20%)**: ✅ Robust Provider-based state management
-- **UI/UX Polish (30%)**: ✅ Modern Material 3 design with smooth animations
-- **Reliability (20%)**: ✅ Comprehensive error handling and offline support# mini-notes-app
