@@ -118,35 +118,6 @@ class NotesView extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
-            // Container(
-            //   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            //   decoration: BoxDecoration(
-            //     gradient: LinearGradient(
-            //       colors: [
-            //         Theme.of(context).colorScheme.primary,
-            //         Theme.of(context).colorScheme.primary.withOpacity(0.8),
-            //       ],
-            //     ),
-            //     borderRadius: BorderRadius.circular(24),
-            //   ),
-            //   child: Row(
-            //     mainAxisSize: MainAxisSize.min,
-            //     children: [
-            //       Icon(
-            //         Icons.add_circle_outline,
-            //         color: Theme.of(context).colorScheme.onPrimary,
-            //       ),
-            //       const SizedBox(width: 8),
-            //       Text(
-            //         'Create Note',
-            //         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            //               color: Theme.of(context).colorScheme.onPrimary,
-            //               fontWeight: FontWeight.w600,
-            //             ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
       );

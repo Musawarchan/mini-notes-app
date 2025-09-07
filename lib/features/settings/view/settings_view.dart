@@ -20,9 +20,6 @@ class SettingsView extends StatelessWidget {
               const SizedBox(height: 16),
               _buildSeedColorCard(context, viewModel),
               const SizedBox(height: 24),
-              _buildSectionHeader(context, 'About'),
-              const SizedBox(height: 8),
-              _buildAboutCard(context),
             ],
           ),
         );
@@ -83,51 +80,56 @@ class SettingsView extends StatelessWidget {
                 Text(
                   'Theme Mode',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                 ),
               ],
             ),
             const SizedBox(height: 20),
             ...ThemeMode.values.map((mode) => Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: viewModel.themeMode == mode 
-                    ? Theme.of(context).colorScheme.primaryContainer.withOpacity(0.3)
-                    : Colors.transparent,
-                border: viewModel.themeMode == mode
-                    ? Border.all(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2,
-                      )
-                    : null,
-              ),
-              child: RadioListTile<ThemeMode>(
-                title: Text(
-                  _getThemeModeTitle(mode),
-                  style: TextStyle(
-                    fontWeight: viewModel.themeMode == mode ? FontWeight.bold : FontWeight.normal,
-                    color: Theme.of(context).colorScheme.onSurface,
+                  margin: const EdgeInsets.only(bottom: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: viewModel.themeMode == mode
+                        ? Theme.of(context)
+                            .colorScheme
+                            .primaryContainer
+                            .withOpacity(0.3)
+                        : Colors.transparent,
+                    border: viewModel.themeMode == mode
+                        ? Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2,
+                          )
+                        : null,
                   ),
-                ),
-                subtitle: Text(
-                  _getThemeModeSubtitle(mode),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  child: RadioListTile<ThemeMode>(
+                    title: Text(
+                      _getThemeModeTitle(mode),
+                      style: TextStyle(
+                        fontWeight: viewModel.themeMode == mode
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                    subtitle: Text(
+                      _getThemeModeSubtitle(mode),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    value: mode,
+                    groupValue: viewModel.themeMode,
+                    onChanged: (ThemeMode? value) {
+                      if (value != null) {
+                        viewModel.setThemeMode(value);
+                      }
+                    },
+                    activeColor: Theme.of(context).colorScheme.primary,
                   ),
-                ),
-                value: mode,
-                groupValue: viewModel.themeMode,
-                onChanged: (ThemeMode? value) {
-                  if (value != null) {
-                    viewModel.setThemeMode(value);
-                  }
-                },
-                activeColor: Theme.of(context).colorScheme.primary,
-              ),
-            )),
+                )),
           ],
         ),
       ),
@@ -177,9 +179,9 @@ class SettingsView extends StatelessWidget {
                 Text(
                   'Accent Color',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                 ),
               ],
             ),
@@ -207,7 +209,10 @@ class SettingsView extends StatelessWidget {
                               width: 4,
                             )
                           : Border.all(
-                              color: Theme.of(context).colorScheme.outline.withOpacity(0.3),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .outline
+                                  .withOpacity(0.3),
                               width: 2,
                             ),
                       boxShadow: isSelected
@@ -220,7 +225,10 @@ class SettingsView extends StatelessWidget {
                             ]
                           : [
                               BoxShadow(
-                                color: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .shadow
+                                    .withOpacity(0.1),
                                 blurRadius: 8,
                                 offset: const Offset(0, 4),
                               ),
@@ -241,7 +249,10 @@ class SettingsView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.5),
+                color: Theme.of(context)
+                    .colorScheme
+                    .surfaceContainerHighest
+                    .withOpacity(0.5),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -256,8 +267,9 @@ class SettingsView extends StatelessWidget {
                     child: Text(
                       'Choose your favorite color to personalize the app theme',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
                     ),
                   ),
                 ],
@@ -269,144 +281,144 @@ class SettingsView extends StatelessWidget {
     );
   }
 
-  Widget _buildAboutCard(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Theme.of(context).colorScheme.surface,
-            Theme.of(context).colorScheme.surfaceContainerHighest,
-          ],
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
-            blurRadius: 12,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.tertiaryContainer,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    Icons.info_outline,
-                    color: Theme.of(context).colorScheme.onTertiaryContainer,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  'About App',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Notes Mini App',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'A Flutter app demonstrating MVVM architecture with Material 3 theming, offline notes management, and API integration.',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      height: 1.4,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.tag,
-                        size: 14,
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Version 1.0.0',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.architecture,
-                        size: 14,
-                        color: Theme.of(context).colorScheme.onSecondaryContainer,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        'MVVM',
-                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: Theme.of(context).colorScheme.onSecondaryContainer,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _buildAboutCard(BuildContext context) {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(20),
+  //       gradient: LinearGradient(
+  //         begin: Alignment.topLeft,
+  //         end: Alignment.bottomRight,
+  //         colors: [
+  //           Theme.of(context).colorScheme.surface,
+  //           Theme.of(context).colorScheme.surfaceContainerHighest,
+  //         ],
+  //       ),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
+  //           blurRadius: 12,
+  //           offset: const Offset(0, 6),
+  //         ),
+  //       ],
+  //     ),
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(20),
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Row(
+  //             children: [
+  //               Container(
+  //                 padding: const EdgeInsets.all(8),
+  //                 decoration: BoxDecoration(
+  //                   color: Theme.of(context).colorScheme.tertiaryContainer,
+  //                   borderRadius: BorderRadius.circular(12),
+  //                 ),
+  //                 child: Icon(
+  //                   Icons.info_outline,
+  //                   color: Theme.of(context).colorScheme.onTertiaryContainer,
+  //                   size: 20,
+  //                 ),
+  //               ),
+  //               const SizedBox(width: 12),
+  //               Text(
+  //                 'About App',
+  //                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
+  //                   fontWeight: FontWeight.bold,
+  //                   color: Theme.of(context).colorScheme.onSurface,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //           const SizedBox(height: 16),
+  //           Container(
+  //             padding: const EdgeInsets.all(16),
+  //             decoration: BoxDecoration(
+  //               color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.5),
+  //               borderRadius: BorderRadius.circular(12),
+  //             ),
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 Text(
+  //                   'Notes Mini App',
+  //                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
+  //                     fontWeight: FontWeight.bold,
+  //                     color: Theme.of(context).colorScheme.onSurface,
+  //                   ),
+  //                 ),
+  //                 const SizedBox(height: 8),
+  //                 Text(
+  //                   'A Flutter app demonstrating MVVM architecture with Material 3 theming, offline notes management, and API integration.',
+  //                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+  //                     color: Theme.of(context).colorScheme.onSurfaceVariant,
+  //                     height: 1.4,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //           const SizedBox(height: 16),
+  //           Row(
+  //             children: [
+  //               Container(
+  //                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+  //                 decoration: BoxDecoration(
+  //                   color: Theme.of(context).colorScheme.primaryContainer,
+  //                   borderRadius: BorderRadius.circular(12),
+  //                 ),
+  //                 child: Row(
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: [
+  //                     Icon(
+  //                       Icons.tag,
+  //                       size: 14,
+  //                       color: Theme.of(context).colorScheme.onPrimaryContainer,
+  //                     ),
+  //                     const SizedBox(width: 4),
+  //                     Text(
+  //                       'Version 1.0.0',
+  //                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
+  //                         color: Theme.of(context).colorScheme.onPrimaryContainer,
+  //                         fontWeight: FontWeight.w600,
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               const SizedBox(width: 12),
+  //               Container(
+  //                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+  //                 decoration: BoxDecoration(
+  //                   color: Theme.of(context).colorScheme.secondaryContainer,
+  //                   borderRadius: BorderRadius.circular(12),
+  //                 ),
+  //                 child: Row(
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: [
+  //                     Icon(
+  //                       Icons.architecture,
+  //                       size: 14,
+  //                       color: Theme.of(context).colorScheme.onSecondaryContainer,
+  //                     ),
+  //                     const SizedBox(width: 4),
+  //                     Text(
+  //                       'MVVM',
+  //                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
+  //                         color: Theme.of(context).colorScheme.onSecondaryContainer,
+  //                         fontWeight: FontWeight.w600,
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   String _getThemeModeTitle(ThemeMode mode) {
     switch (mode) {

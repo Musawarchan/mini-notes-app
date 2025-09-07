@@ -55,7 +55,7 @@ class _AddEditNoteDialogState extends State<AddEditNoteDialog> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -68,8 +68,11 @@ class _AddEditNoteDialogState extends State<AddEditNoteDialog> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
-                          isEditing ? Icons.edit_outlined : Icons.add_circle_outline,
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          isEditing
+                              ? Icons.edit_outlined
+                              : Icons.add_circle_outline,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
                           size: 20,
                         ),
                       ),
@@ -77,9 +80,9 @@ class _AddEditNoteDialogState extends State<AddEditNoteDialog> {
                       Text(
                         isEditing ? 'Edit Note' : 'Add Note',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                       ),
                     ],
                   ),
@@ -115,7 +118,7 @@ class _AddEditNoteDialogState extends State<AddEditNoteDialog> {
                           controller: _descriptionController,
                           decoration: InputDecoration(
                             labelText: 'Description',
-                            hintText: 'Enter note description (optional)',
+                            hintText: 'Enter note description',
                             prefixIcon: Icon(
                               Icons.description_outlined,
                               color: Theme.of(context).colorScheme.primary,
@@ -126,27 +129,38 @@ class _AddEditNoteDialogState extends State<AddEditNoteDialog> {
                             filled: true,
                           ),
                           maxLines: 3,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Description cannot be empty';
+                            }
+                            return null;
+                          },
                         ),
                         if (viewModel.error != null) ...[
                           const SizedBox(height: 16),
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.errorContainer,
+                              color:
+                                  Theme.of(context).colorScheme.errorContainer,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Row(
                               children: [
                                 Icon(
                                   Icons.error_outline,
-                                  color: Theme.of(context).colorScheme.onErrorContainer,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onErrorContainer,
                                 ),
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
                                     viewModel.error!,
                                     style: TextStyle(
-                                      color: Theme.of(context).colorScheme.onErrorContainer,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onErrorContainer,
                                     ),
                                   ),
                                 ),
@@ -189,7 +203,8 @@ class _AddEditNoteDialogState extends State<AddEditNoteDialog> {
                               ? const SizedBox(
                                   width: 16,
                                   height: 16,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                  child:
+                                      CircularProgressIndicator(strokeWidth: 2),
                                 )
                               : Text(isEditing ? 'Update' : 'Save'),
                         ),
