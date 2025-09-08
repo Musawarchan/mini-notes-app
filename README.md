@@ -86,13 +86,7 @@ Common commands:
 
 ```bash
 # Run
-flutter run -d chrome   # or any connected device
-
-# Analyze
-flutter analyze
-
-# Tests
-flutter test
+flutter run 
 ```
 
 ## Build
