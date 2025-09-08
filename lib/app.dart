@@ -7,6 +7,7 @@ import 'features/posts/viewmodel/posts_viewmodel.dart';
 import 'features/settings/view/settings_view.dart';
 import 'features/notes/view/notes_view.dart';
 import 'features/posts/view/posts_view.dart';
+import 'features/splash/view/splash_view.dart';
 
 class NotesMiniApp extends StatelessWidget {
   const NotesMiniApp({super.key});
@@ -30,7 +31,7 @@ class NotesMiniApp extends StatelessWidget {
             darkTheme: AppTheme.darkTheme(
                 AppTheme.seedColors[themeViewModel.seedColorIndex]),
             themeMode: themeViewModel.themeMode,
-            home: const MainNavigationView(),
+            home: const SplashView(),
             debugShowCheckedModeBanner: false,
           );
         },
