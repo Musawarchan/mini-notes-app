@@ -18,6 +18,14 @@ class NotesView extends StatelessWidget {
           }
         });
 
+        // Listen for errors and show snackbars
+        if (viewModel.error != null && viewModel.error!.isNotEmpty) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _showErrorSnackBar(context, viewModel.error!);
+            viewModel.clearError();
+          });
+        }
+
         return Scaffold(
           body: _buildBody(context, viewModel),
           floatingActionButton: Container(
@@ -166,6 +174,34 @@ class NotesView extends StatelessWidget {
           onPressed: () => viewModel.undoDelete(),
         ),
         duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
+  void _showErrorSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.error_outline,
+              color: Theme.of(context).colorScheme.onError,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(message),
+            ),
+          ],
+        ),
+        backgroundColor: Theme.of(context).colorScheme.error,
+        duration: const Duration(seconds: 4),
+        action: SnackBarAction(
+          label: 'Dismiss',
+          textColor: Theme.of(context).colorScheme.onError,
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
       ),
     );
   }

@@ -136,38 +136,6 @@ class _AddEditNoteDialogState extends State<AddEditNoteDialog> {
                             return null;
                           },
                         ),
-                        if (viewModel.error != null) ...[
-                          const SizedBox(height: 16),
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color:
-                                  Theme.of(context).colorScheme.errorContainer,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.error_outline,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onErrorContainer,
-                                ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Text(
-                                    viewModel.error!,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onErrorContainer,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
                       ],
                     ),
                   ),
@@ -237,10 +205,59 @@ class _AddEditNoteDialogState extends State<AddEditNoteDialog> {
         );
       }
 
-      // Close dialog after successful save
+      // Close dialog after successful save or show error snackbar
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (viewModel.error == null) {
           Navigator.of(context).pop();
+          // Show success snackbar
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  Icon(
+                    Icons.check_circle_outline,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    widget.note != null
+                        ? 'Note updated successfully!'
+                        : 'Note created successfully!',
+                  ),
+                ],
+              ),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        } else {
+          // Show error snackbar
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    color: Theme.of(context).colorScheme.onError,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(viewModel.error!),
+                  ),
+                ],
+              ),
+              backgroundColor: Theme.of(context).colorScheme.error,
+              duration: const Duration(seconds: 4),
+              action: SnackBarAction(
+                label: 'Dismiss',
+                textColor: Theme.of(context).colorScheme.onError,
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                },
+              ),
+            ),
+          );
+          viewModel.clearError();
         }
       });
     }
