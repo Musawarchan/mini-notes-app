@@ -82,7 +82,7 @@ lib/
 
 ## Development
 
-Common commands:
+commands:
 
 ```bash
 # Run
