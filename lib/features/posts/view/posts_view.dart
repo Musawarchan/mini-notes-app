@@ -11,21 +11,7 @@ class PostsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PostsViewModel>(
       builder: (context, viewModel, child) {
-        // Load posts when the view is first built
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (viewModel.posts.isEmpty && !viewModel.isLoading) {
-            viewModel.loadPosts(refresh: true);
-          }
-        });
-
-        // Listen for errors and show snackbars
-        if (viewModel.error != null && viewModel.error!.isNotEmpty) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _showErrorSnackBar(context, viewModel.error!);
-            viewModel.clearError();
-          });
-        }
-
+        viewModel.initializeIfNeeded();
         return Scaffold(
           body: _buildBody(context, viewModel),
         );
@@ -56,7 +42,15 @@ class PostsView extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () => viewModel.retry(),
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Retrying to load posts...'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+                viewModel.retry();
+              },
               child: const Text('Retry'),
             ),
           ],
@@ -159,35 +153,6 @@ class PostsView extends StatelessWidget {
 
             final post = viewModel.posts[index];
             return PostCard(post: post);
-          },
-        ),
-      ),
-    );
-  }
-
-  void _showErrorSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              Icons.error_outline,
-              color: Theme.of(context).colorScheme.onError,
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(message),
-            ),
-          ],
-        ),
-        backgroundColor: Theme.of(context).colorScheme.error,
-        duration: const Duration(seconds: 4),
-        action: SnackBarAction(
-          label: 'Retry',
-          textColor: Theme.of(context).colorScheme.onError,
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            Provider.of<PostsViewModel>(context, listen: false).retry();
           },
         ),
       ),

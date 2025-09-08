@@ -12,12 +12,24 @@ class PostsViewModel extends ChangeNotifier {
   String? _error;
   bool _hasMore = true;
   int _currentPage = 0;
+  bool _initialized = false;
 
   List<PostModel> get posts => _posts;
   bool get isLoading => _isLoading;
   bool get isLoadingMore => _isLoadingMore;
   String? get error => _error;
   bool get hasMore => _hasMore;
+  bool get isInitialized => _initialized;
+
+  void initializeIfNeeded() {
+    if (_initialized) return;
+    _initialized = true;
+    // Trigger initial load after current frame to avoid notifyListeners during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // ignore: discarded_futures
+      loadPosts(refresh: true);
+    });
+  }
 
   Future<void> loadPosts({bool refresh = false}) async {
     if (refresh) {
@@ -48,7 +60,8 @@ class PostsViewModel extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      _setError('Failed to load posts: $e');
+      _setError(
+          'Failed to load posts. Please check your connection and try again.');
     } finally {
       _setLoading(false);
     }
@@ -71,7 +84,7 @@ class PostsViewModel extends ChangeNotifier {
 
       notifyListeners();
     } catch (e) {
-      _setError('Failed to load more posts: $e');
+      _setError('Could not load more posts. Please try again.');
     } finally {
       _setLoadingMore(false);
     }
