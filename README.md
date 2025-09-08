@@ -1,31 +1,22 @@
 # Notes Mini App
 
-A Flutter application demonstrating MVVM architecture with Material 3 theming, offline notes management, and API integration.
+A compact Flutter application for note‑taking and browsing remote posts. It features Material 3 theming, offline‑friendly UX, and a lightweight splash screen.
 
-## Features
+## Requirements
 
-### Task 1 — Notes Mini-App (Offline + Undo)
-- ✅ List of note cards (title + description)
-- ✅ Add/Edit/Delete notes
-- ✅ Delete shows SnackBar with "Undo" functionality
-- ✅ Persist locally using SharedPreferences
-- ✅ Validation: No empty titles allowed
+- Flutter 3.24+ (Dart 3.6+)
+- Platforms: Android, iOS, Web, macOS, Windows, Linux
 
-### Task 2 — API Cards (Paged + Retry)
-- ✅ Fetch posts from https://jsonplaceholder.typicode.com/posts
-- ✅ Display as styled cards (title + preview)
-- ✅ States: Loading (shimmer/skeleton), error (retry button), empty state
-- ✅ Paging: Load first 10 posts, then "Load more" with infinite scroll
+## Quick start
 
-### Task 3 — Theme Playground (Dynamic)
-- ✅ Toggle between dark/light themes
-- ✅ 4 preset seed colors (user can switch)
-- ✅ Persist theme choice
-- ✅ UI updates instantly across the app
+```bash
+git clone <your-repo-url>
+cd notes_mini_app
+flutter pub get 
+flutter run
+```
 
-## Architecture
-
-The app follows **MVVM (Model-View-ViewModel)** architecture:
+## Project structure
 
 ```
 lib/
@@ -46,81 +37,77 @@ lib/
 │   │   ├── view/
 │   │   ├── viewmodel/
 │   │   └── widgets/
-│   └── settings/           # Settings feature
-│       ├── view/
-│       └── viewmodel/
+│   ├── settings/           # Settings feature
+│   │    ├── view/
+│   │    └── viewmodel/
+│   └── splash/              # Splash screen
 ├── app.dart               # Main app configuration
 └── main.dart              # App entry point
 ```
 
-## State Management
+## Features
 
-- **Provider**: Used for state management across the app
-- **ChangeNotifier**: ViewModels extend ChangeNotifier for reactive updates
-- **Consumer**: Views consume ViewModel state changes
+- Notes (local)
+  - Add, edit, delete notes
+  - Undo deletion via SnackBar
+  - Persisted with SharedPreferences
+- Posts (remote)
+  - Fetch from `https://jsonplaceholder.typicode.com/posts`
+  - Paged loading with pull‑to‑refresh and infinite scroll
+  - Shimmer on initial load, inline error UI with Retry
+- Settings / Theme
+  - Light/Dark themes and seed color selection
+  - Preferences persisted across launches
+- Splash
+  - Minimal splash that navigates to the main app
+
+## State management
+
+- Provider + ChangeNotifier for view models
+- Consumer widgets for granular rebuilds
+- Initialization is deferred to post‑frame callbacks when needed to prevent build‑phase notifications
+
+## Networking & error handling
+
+- `http` package for requests
+- Friendly, user‑facing error copy (no raw exceptions)
+- Retry flows for initial load and pagination
 
 ## Dependencies
 
-- `provider: ^6.1.2` - State management
-- `shared_preferences: ^2.2.3` - Local storage
-- `http: ^1.2.2` - HTTP requests
-- `shimmer: ^3.0.0` - Loading animations
+- provider: state management
+- shared_preferences: lightweight persistence
+- http: networking
+- shimmer: loading skeletons
 
-## Setup
+## Development
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd notes_mini_app
-   ```
+Common commands:
 
-2. **Install dependencies**
-   ```bash
-   flutter pub get
-   ```
-
-3. **Run the app**
-   ```bash
-   flutter run
-   ```
-
-## Key Decisions
-
-### Architecture Choices
-- **MVVM**: Clear separation of concerns with ViewModels handling business logic
-- **Provider**: Simple and effective state management without complex setup
-- **Repository Pattern**: Abstracts data sources for better testability
-
-### UI/UX Decisions
-- **Material 3**: Modern design system with dynamic theming
-- **Navigation Bar**: Clean bottom navigation for easy feature access
-- **Shimmer Loading**: Better user experience during data loading
-- **SnackBar Undo**: Familiar pattern for destructive actions
-- **Enhanced Cards**: Beautiful gradient cards with smooth animations
-- **Interactive Elements**: Tap animations and visual feedback
-- **Modern Dialogs**: Custom styled dialogs with better UX
-- **Visual Hierarchy**: Clear information architecture with proper spacing
-
-### Technical Decisions
-- **SharedPreferences**: Simple local storage for notes and settings
-- **HTTP Package**: Lightweight HTTP client for API calls
-- **Infinite Scroll**: Better performance for large datasets
-- **Error Handling**: Comprehensive error states with retry functionality
-
-## Testing
-
-Run tests with:
 ```bash
+# Run
+flutter run -d chrome   # or any connected device
+
+# Analyze
+flutter analyze
+
+# Tests
 flutter test
 ```
 
 ## Build
 
-Build for production:
 ```bash
-flutter build apk  # Android
-flutter build ios  # iOS
-flutter build web  # Web
+flutter build apk      # Android
+flutter build ios      # iOS
+flutter build web      # Web
 ```
+
+## Design decisions
+
+- Favor simplicity (Provider) over added boilerplate for this scope
+- Separate data/services from UI via a light MVVM approach
+- Cache preferences (theme, seed color) using SharedPreferences
+- Prioritize resilient UX offline: stable empty/error states; shimmer only during initial loads
 
 
